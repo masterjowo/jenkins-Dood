@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  jenkins:
+    build: .
+    container_name: jenkins_dood
+    restart: always
+    user: root # Diperlukan agar Jenkins bisa mengakses docker.sock VPS
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      # (Opsional) Mount kubeconfig agar Jenkins bisa langsung meremote K3s
+      #- /etc/rancher/k3s/k3s.yaml:/var/jenkins_home/.kube/config:ro
+
+volumes:
+  jenkins_data:
